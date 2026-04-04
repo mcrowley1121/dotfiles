@@ -1,0 +1,110 @@
+# ~/.config/starship.toml
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Give the prompt some breathing room
+add_newline = true
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+# --- Cloud & Infrastructure ---
+
+[azure]
+disabled = false
+format = '[ $symbol($subscription)](blue bold) '
+symbol = "󰠅 "
+
+[terraform]
+disabled = false
+format = '[ $symbol$workspace](bold purple) '
+symbol = "󱁢 "
+
+# --- Languages & Runtimes ---
+
+[python]
+disabled = false
+format = '[$symbol$version(\($virtualenv\))](bold yellow) '
+symbol = " "
+detect_files = ["requirements.txt", "pyproject.toml", ".python-version", "Pipfile"]
+
+[nodejs]
+disabled = false
+format = '[$symbol$version](bold green) '
+symbol = " "
+
+# --- Git ---
+# You're working across multiple repos (90N-Epic-Data-TF, orchestrator repo, etc.)
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)](bold cyan) '
+symbol = " "
+truncation_length = 20
+truncation_symbol = "…"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]](bold yellow) )'
+conflicted = "⚔️ "
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?"
+modified = "!"
+staged = "+"
+deleted = "✘"
+
+[git_commit]
+commit_hash_length = 7
+tag_symbol = "🔖 "
+
+# --- Directory ---
+
+[directory]
+truncation_length = 4
+truncate_to_repo = true
+format = "[$path](bold blue)[$read_only](red) "
+read_only = " 󰌾"
+
+# --- Kubernetes ---
+# Useful context when working across dev/staging/prod AKS clusters
+
+[kubernetes]
+disabled = false
+format = '[$symbol$context(\($namespace\))](bold cyan dimmed) '
+symbol = "☸ "
+
+# --- Docker ---
+
+[docker_context]
+disabled = false
+format = '[$symbol$context](blue bold) '
+symbol = " "
+
+# --- System ---
+
+[cmd_duration]
+min_time = 2_000
+format = '[ $duration](bold yellow) '
+show_milliseconds = false
+
+[memory_usage]
+disabled = false
+threshold = 75
+format = '[$symbol$ram_pct]($style) '
+symbol = "󰍛 "
+style = "bold dimmed red"
+
+[time]
+disabled = false
+format = '[\[ $time \]](bold black) '
+time_format = "%H:%M"
+
+[line_break]
+disabled = false
+
+[status]
+disabled = false
+format = '[$symbol$status]($style) '
+symbol = "✘ "
+style = "bold red"
