@@ -108,12 +108,31 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
+# Load bash-completion (cross-platform)
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
+  if [ -n "$(command -v brew)" ] && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+    # macOS with Homebrew bash-completion@2
+    . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    # Debian/Ubuntu
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
+    # Older Linux fallback
     . /etc/bash_completion
   fi
 fi
 
-eval "$(starship init bash)"
+if command -v starship &> /dev/null; then
+  eval "$(starship init bash)"
+fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/mike/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+### Add Kubectl setup
+if command -v kubectl &> /dev/null; then
+  alias k='kubectl'
+  source <(kubectl completion bash)
+  complete -o default -F __start_kubectl k
+fi
