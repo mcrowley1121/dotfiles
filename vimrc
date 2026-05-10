@@ -19,8 +19,9 @@
 " /etc/vim/vimrc.local, since debian.vim will be overwritten everytime an
 " upgrade of the vim packages is performed. It is recommended to make changes
 " after sourcing debian.vim so your settings take precedence.
-
-runtime! debian.vim
+if filereadable($VIMRUNTIME . "/debian.vim")
+  runtime! debian.vim
+endif
 
 " Uncomment the next line to make Vim more Vi-compatible
 " NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes
@@ -62,3 +63,42 @@ if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
 
+" =====================================================================
+" Custom settings
+" =====================================================================
+
+" Default indentation: 2 spaces, expanded
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+
+" Make backspace behave like in most other editors
+set backspace=indent,eol,start
+
+" Detect .jsonc files as the jsonc filetype (not recognized by default)
+autocmd BufRead,BufNewFile *.jsonc setfiletype jsonc
+
+" Highlight trailing whitespace, but not while actively typing on a line
+highlight ExtraWhitespace ctermbg=red guibg=red
+augroup TrailingWhitespace
+  autocmd!
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+  " Disable trailing-whitespace highlighting in formats where it's syntactic
+  autocmd FileType markdown,gitcommit match none
+augroup END
+
+" Per-filetype indentation overrides
+" YAML and similar formats are sensitive to indentation; keep them at 2 spaces
+augroup FiletypeIndentation
+  autocmd!
+  autocmd FileType yaml,yml      setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType json,jsonc    setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType python        setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  autocmd FileType go            setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType make          setlocal noexpandtab
+augroup END
