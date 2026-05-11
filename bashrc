@@ -19,6 +19,14 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# Use vi keybindings for command line editing
+set -o vi
+
+# Keep a few emacs-style shortcuts in vi insert mode for muscle memory
+bind -m vi-insert '"\C-a": beginning-of-line'
+bind -m vi-insert '"\C-e": end-of-line'
+bind -m vi-insert '"\C-l": clear-screen'
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
