@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Description: Link dotfiles to home directory
+set -euo pipefail
 
 mkdir -p ~/.config
 
