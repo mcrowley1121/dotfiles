@@ -113,6 +113,9 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# git
+alias gs='git status'
+
 # terraform
 alias tf='terraform'
 alias tp='terraform plan'
