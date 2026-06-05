@@ -160,3 +160,6 @@ if command -v kubectl &> /dev/null; then
   source <(kubectl completion bash)
   complete -o default -F __start_kubectl k
 fi
+
+### Add mise setup
+eval "$(mise activate bash)
