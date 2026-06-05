@@ -7,6 +7,7 @@ if ! command -v chezmoi >/dev/null; then
     sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:mcrowley1121/dotfiles.git
 fi
 
+exit 0
 #mkdir -p ~/.config
 
 #ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/bashrc ~/.bashrc
