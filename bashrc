@@ -162,4 +162,4 @@ if command -v kubectl &> /dev/null; then
 fi
 
 ### Add mise setup
-eval "$(mise activate bash)
+eval "$(mise activate bash)"
