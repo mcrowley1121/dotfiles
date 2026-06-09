@@ -1,5 +1,4 @@
 #!/bin/bash
 # packages hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 set -euo pipefail
-export PATH="$HOME/.local/bin:$PATH"
-mise trust "$HOME/.config/mise/config.toml" && mise install && mise reshim
+$HOME/.local/bin/mise trust $HOME/.config/mise/config.toml && $HOME/.local/bin/mise install

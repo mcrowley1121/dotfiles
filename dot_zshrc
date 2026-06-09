@@ -1,3 +1,6 @@
+# Ensure ~/.local/bin is on PATH for mise and other user-installed binaries.
+export PATH="$HOME/.local/bin:$PATH"
+
 # ~~~~~~~~~~~~~~~ History ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -41,7 +44,7 @@ export LANG="en_US.UTF-8"
 
 
 if command -v mise > /dev/null ; then
-  eval "$($HOME/.local/bin/mise activate zsh)"
+  eval "$(mise activate zsh)"
 fi
 
 

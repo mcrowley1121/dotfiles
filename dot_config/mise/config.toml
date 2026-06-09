@@ -1,6 +1,5 @@
 [tools]
 bat = "latest"
-chezmoi = "latest"
 fzf = "latest"
 lsd = "latest"
 ripgrep = "latest"

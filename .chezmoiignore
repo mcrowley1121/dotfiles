@@ -1,5 +1,1 @@
-# .chezmoiignore
 setup
-{{ if eq .chezmoi.os "darwin" }}
-.local/bin/mise
-{{ end }}
