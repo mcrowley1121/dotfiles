@@ -2,9 +2,10 @@
 
 set -euo pipefail
 
-if command -v zsh >/dev/null; then
-  sudo chsh -s $(command -v zsh) $USER
-fi
+# Keep bash as the login shell while practicing in bash.
+# (zsh and the pure prompt are still installed below, so you can switch later
+#  by changing bash -> zsh here and rebuilding the container.)
+sudo chsh -s "$(command -v bash)" "$USER"
 
 if [ ! -d "$HOME/.zsh" ]; then
   mkdir -p "$HOME/.zsh"
@@ -17,7 +18,5 @@ fi
 if ! command -v chezmoi >/dev/null; then
   sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:mcrowley1121/dotfiles.git
 fi
-
-echo "Dotfiles linked!"
 
 exit 0

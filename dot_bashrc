@@ -16,8 +16,10 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# Bumped to match the instructor's zsh history (100k). HISTSIZE = lines kept in
+# memory for the session; HISTFILESIZE = lines persisted to ~/.bash_history.
+HISTSIZE=100000
+HISTFILESIZE=100000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -167,6 +169,26 @@ if [[ "$TERM" == "xterm" ]]; then
 fi
 
 # ===== Mike Custom Additions =====
+
+# editor + locale (ported from the instructor's zsh config). Guarded so EDITOR
+# only points at nvim when it's actually installed.
+if command -v nvim > /dev/null; then
+  export EDITOR="nvim"
+  export VISUAL="nvim"
+fi
+export LANG="en_US.UTF-8"
+
+# tool completions (bash variants of the instructor's zsh completion block).
+# Each is guarded so a missing tool is simply skipped instead of erroring.
+if command -v fzf > /dev/null; then
+  eval "$(fzf --bash)"
+fi
+if command -v mise > /dev/null; then
+  source <(mise completion bash)
+fi
+if command -v flux > /dev/null; then
+  source <(flux completion bash)
+fi
 
 # vi keybindings for command-line editing, with a few emacs-style shortcuts
 # kept in insert mode for muscle memory. `bind` only affects interactive

@@ -3,12 +3,15 @@
 #
 # Aliases only. They are safe to define even when the underlying tool is not
 # installed: an alias is just text substitution, so it costs nothing until you
-# actually invoke it (then it fails like any missing command would). That is
-# why these need no `command -v` guards -- guards only matter for things that
-# RUN at shell startup (completion sourcing, prompt init), which live in .bashrc.
+# actually invoke it. Tool-backed aliases below are still guarded with
+# `command -v` so that, e.g., `ls` only gets reassigned to lsd when lsd exists
+# (otherwise you'd lose plain `ls` on a box without it).
+
+# ----- your existing aliases -----
 
 # git
 alias gs='git status'
+alias gp='git pull'
 
 # terraform
 alias tf='terraform'
@@ -17,3 +20,24 @@ alias tp='terraform plan'
 # kubectl  (tab-completion for the `k` alias is wired up in .bashrc)
 alias k='kubectl'
 alias kgp='kubectl get pods'
+
+# ----- ported from the instructor's zsh config -----
+
+# editor / tools
+alias v='nvim'
+alias lg='lazygit'
+
+# bat as a nicer cat (interactive only; scripts are unaffected by aliases)
+if command -v bat > /dev/null; then
+  alias cat='bat'
+fi
+
+# lsd as a nicer ls. These override the stock ls/ll/la from .bashrc because
+# .bash_aliases is sourced afterward (last definition wins).
+if command -v lsd > /dev/null; then
+  alias ls='lsd'
+  alias ll='ls -lgh'
+  alias la='ls -lathr'
+  alias lla='ls -lgha'
+  alias lt='ls --tree'
+fi
