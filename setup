@@ -1,21 +1,23 @@
 #!/bin/bash
 
-# Description: Link dotfiles to home directory
 set -euo pipefail
 
-if ! command -v chezmoi >/dev/null; then
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:mcrowley1121/dotfiles.git
+if command -v zsh >/dev/null; then
+  sudo chsh -s $(command -v zsh) $USER
 fi
 
-sudo apt update && sudo apt install vim -y
+if [ ! -d "$HOME/.zsh" ]; then
+  mkdir -p "$HOME/.zsh"
+fi
+
+if [ ! -d "$HOME/.zsh/pure" ]; then
+  git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+fi
+
+if ! command -v chezmoi >/dev/null; then
+  sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:mcrowley1121/dotfiles.git
+fi
+
+echo "Dotfiles linked!"
 
 exit 0
-#mkdir -p ~/.config
-
-#ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/bashrc ~/.bashrc
-#ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/vimrc ~/.vimrc
-#ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/starship.toml ~/.config/starship.toml
-#ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/tmux.conf ~/.tmux.conf
-#ln -sf ~/Repos/github.com/mcrowley1121/dotfiles/bash_profile ~/.bash_profile
-
-#echo "Dotfiles linked!"

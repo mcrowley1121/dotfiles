@@ -108,10 +108,16 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
+# Load bash-completion (cross-platform: macOS Homebrew first, then Linux paths).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
+  if [ -n "$(command -v brew)" ] && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+    # macOS with Homebrew bash-completion@2
+    . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    # Debian/Ubuntu/Arch
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
+    # Older Linux fallback
     . /etc/bash_completion
   fi
 fi
@@ -160,6 +166,32 @@ if [[ "$TERM" == "xterm" ]]; then
     PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }precmd"
 fi
 
-# Mike Custom Additions
+# ===== Mike Custom Additions =====
+
+# vi keybindings for command-line editing, with a few emacs-style shortcuts
+# kept in insert mode for muscle memory. `bind` only affects interactive
+# shells, and this file already bailed out earlier if non-interactive, so
+# these are always safe to run here on both Linux and macOS.
 set -o vi
+bind -m vi-insert '"\C-a": beginning-of-line'
+bind -m vi-insert '"\C-e": end-of-line'
+bind -m vi-insert '"\C-l": clear-screen'
+
+# kubectl tab-completion. The `k`/`kgp` aliases live in ~/.bash_aliases (sourced
+# above); this block adds completion and makes the `k` alias complete like
+# kubectl. Guarded by `command -v` so it is skipped on machines without kubectl
+# instead of throwing an error at every shell start.
+if command -v kubectl &> /dev/null; then
+  source <(kubectl completion bash)
+  complete -o default -F __start_kubectl k
+fi
+
+# Rancher Desktop CLI tools (docker, kubectl, helm, nerdctl) live in ~/.rd/bin.
+# Set Rancher Desktop's PATH management to "Manual" so it does NOT edit this file
+# itself (that would conflict with chezmoi). The -d guard means this is a no-op
+# on machines without Rancher Desktop (Linux boxes, devcontainers), so it is safe
+# to keep in a file shared across all systems.
+[ -d "$HOME/.rd/bin" ] && export PATH="$HOME/.rd/bin:$PATH"
+
+# mise (runtime/version manager) - keep last so it can shim tools above.
 eval "$(mise activate bash)"

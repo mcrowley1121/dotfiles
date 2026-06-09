@@ -1,0 +1,19 @@
+# ~/.bash_aliases - personal aliases, sourced automatically by ~/.bashrc
+# Managed by chezmoi (source name: dot_bash_aliases).
+#
+# Aliases only. They are safe to define even when the underlying tool is not
+# installed: an alias is just text substitution, so it costs nothing until you
+# actually invoke it (then it fails like any missing command would). That is
+# why these need no `command -v` guards -- guards only matter for things that
+# RUN at shell startup (completion sourcing, prompt init), which live in .bashrc.
+
+# git
+alias gs='git status'
+
+# terraform
+alias tf='terraform'
+alias tp='terraform plan'
+
+# kubectl  (tab-completion for the `k` alias is wired up in .bashrc)
+alias k='kubectl'
+alias kgp='kubectl get pods'
