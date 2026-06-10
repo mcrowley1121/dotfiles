@@ -221,3 +221,6 @@ fi
 
 # mise (runtime/version manager) - keep last so it can shim tools above.
 eval "$(mise activate bash)"
+
+# (direnv) - loads environment variables when entering directory with appropriate files
+eval "$(direnv hook bash)"
