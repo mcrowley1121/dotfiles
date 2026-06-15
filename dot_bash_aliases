@@ -21,6 +21,9 @@ alias tp='terraform plan'
 alias k='kubectl'
 alias kgp='kubectl get pods'
 
+# kubens (Change namespace in k9s)
+alias kn='kubens'
+
 # ----- ported from the instructor's zsh config -----
 
 # editor / tools
